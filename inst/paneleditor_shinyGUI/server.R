@@ -55,7 +55,7 @@ shinyServer(function(input, output, session) {
 
     output$paneleditorUI <- render_paneleditor_ui(working.directory)
 
-    files.list <- list.files(working.directory, pattern = "*.fcs$", ignore.case = T)
+    files.list <- list.files(working.directory, pattern = "\\.fcs$", ignore.case = T)
     files.list <- file.path(working.directory, files.list)
 
     panel.table <- get_panel_table(files.list)
