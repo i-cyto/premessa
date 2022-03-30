@@ -33,6 +33,7 @@ get_panel_table <- function(files.list) {
 
     panel.table <- data.frame(Parameter = row.names(panel.table), common.names, panel.table, check.names = F, stringsAsFactors = F)
     names(panel.table)[2] <- "Most common"
+
     return(panel.table)
 }
 
@@ -40,6 +41,7 @@ rename_from_template <- function(tab, template.file.path) {
     template <- read.csv(template.file.path, header = FALSE)
     if(ncol(template) < 2)
         stop("Template file format incorrect")
+    template$V1 <- gsub(".*ï»¿","",template$V1) # Remove BOM
     names.map <- setNames(template[, 2], template[, 1])
     names.map <- names.map[names(names.map) %in% row.names(tab)]
     fcs.cols <- grep("FCS$", names(tab), ignore.case = TRUE)
@@ -47,6 +49,7 @@ rename_from_template <- function(tab, template.file.path) {
     tab[names(names.map), fcs.cols] <- names.map
     tab[names(names.map), fcs.cols][w.na] <- NA
     tab[, "Most common"] <- premessa:::get_common_names(tab)
+
     return(tab)
 }
 
