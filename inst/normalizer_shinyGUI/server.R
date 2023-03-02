@@ -134,7 +134,7 @@ shinyServer(function(input, output, session) {
         ret <- NULL
 
         if(!is.null(input$beadremovalui_selected_fcs) && input$beadremovalui_selected_fcs != "")
-            ret <- flowCore::read.FCS(file.path(normed.dir, input$beadremovalui_selected_fcs), emptyValue = FALSE)
+            ret <- flowCore_read.FCS(file.path(normed.dir, input$beadremovalui_selected_fcs))
 
         return(ret)
     })
@@ -165,7 +165,7 @@ shinyServer(function(input, output, session) {
                     "Bead removal started, please wait..."
                 ))
                 files.list <- lapply(files.list, function(f.name) {
-                    fcs <- flowCore::read.FCS(file.path(normed.dir, f.name), emptyValue = FALSE)
+                    fcs <- flowCore_read.FCS(file.path(normed.dir, f.name))
                     premessa::remove_beads_from_file(file.path(normed.dir, f.name), input$beadremovalui_cutoff, beads.removed.dir)
                     return(f.name)
                 })
@@ -181,7 +181,7 @@ shinyServer(function(input, output, session) {
 
     observe({
         if(!is.null(input$beadremovalui_selected_fcs) && input$beadremovalui_selected_fcs != "") {
-            fcs <- flowCore::read.FCS(file.path(normed.dir, input$beadremovalui_selected_fcs), emptyValue = FALSE)
+            fcs <- flowCore_read.FCS(file.path(normed.dir, input$beadremovalui_selected_fcs))
             beads.type <-  premessa:::get_beads_type_from_description(input$beadremovalui_beads_type)
 
             beads.cols.names <- premessa:::find_beads_channels_names(fcs, beads.type)
@@ -240,7 +240,7 @@ shinyServer(function(input, output, session) {
         ret <- NULL
 
         if(!is.null(input$normalizerui_selected_fcs) && input$normalizerui_selected_fcs != "")
-            ret <- flowCore::read.FCS(file.path(working.directory, input$normalizerui_selected_fcs), emptyValue = FALSE)
+            ret <- flowCore_read.FCS(file.path(working.directory, input$normalizerui_selected_fcs))
 
         return(ret)
     })
