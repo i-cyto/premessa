@@ -8,7 +8,7 @@ render_concatenate_ui <- function(working.directory, ...) {renderUI({
             column(12,
                 #selectizeInput("concatenateui_selected_files", multiple = T, width = "100%", choices = c()),
                 shinyjqui::orderInput("concatenateui_available_files", "Available files", connect = "concatenateui_files_order",
-                                      items = list.files(working.directory, pattern = "*.fcs$", ignore.case = TRUE), width = "100%"),
+                                      items = list.files(working.directory, pattern = "\\.fcs$", ignore.case = TRUE), width = "100%"),
                 shinyjqui::orderInput("concatenateui_files_order", "File order", placeholder = "Drag files here",
                                       items = NULL, connect = "concatenateui_available_files", width = "100%"),
                 actionButton("concatenateui_concatenate_files", "Concatenate files")
@@ -30,7 +30,7 @@ render_beadremoval_ui <- function(working.directory, ...) {renderUI({
                    selectizeInput("beadremovalui_beads_type", "Select beads type", multiple = FALSE, width = "100%",
                                   choices = c("Fluidigm Beads (140,151,153,165,175)", "Beta Beads (139,141,159,169,175)","XT Beads (89,115,140,159,175,209)")),
                    selectizeInput("beadremovalui_selected_fcs", "Select FCS file",
-                                  choices = c("", list.files(file.path(working.directory, "normed"), pattern = "*.fcs$", ignore.case = T)), multiple = FALSE, width = "100%"),
+                                  choices = c("", list.files(file.path(working.directory, "normed"), pattern = "\\.fcs$", ignore.case = T)), multiple = FALSE, width = "100%"),
                    numericInput("beadremovalui_cutoff", "Cutoff for bead removal", value = 0, min = 0, max = 20),
                    actionButton("beadremovalui_remove_beads", "Remove beads (current file)"),
                    actionButton("beadremovalui_remove_beads_all_files", "Remove beads (all files)")
@@ -50,7 +50,7 @@ render_normalizer_ui <- function(working.directory, ...){renderUI({
                 selectizeInput("normalizerui_beads_type", "Select beads type", multiple = FALSE, width = "100%",
                                choices = c("Fluidigm Beads (140,151,153,165,175)", "Beta Beads (139,141,159,169,175)","XT Beads (89,115,140,159,175,209)")),
                 selectizeInput("normalizerui_selected_fcs", "Select FCS file",
-                            choices = c("", list.files(working.directory, pattern = "*.fcs$", ignore.case = T)), multiple = FALSE, width = "100%"),
+                            choices = c("", list.files(working.directory, pattern = "\\.fcs$", ignore.case = T)), multiple = FALSE, width = "100%"),
                 fluidRow(
                     column(6,
                         selectizeInput("normalizerui_baseline", "Select baseline for normalization", multiple = FALSE, width = "100%",
@@ -124,7 +124,7 @@ shinyServer(function(input, output, session) {
                 )
             ))
             updateSelectizeInput(session, "normalizerui_selected_fcs",
-                                 choices = c("", list.files(working.directory, pattern = "*.fcs$", ignore.case = T)))
+                                 choices = c("", list.files(working.directory, pattern = "\\.fcs$", ignore.case = T)))
         }
     })
 
@@ -159,7 +159,7 @@ shinyServer(function(input, output, session) {
     observeEvent(input$beadremovalui_remove_beads_all_files, {
             isolate({
                 dir.create(beads.removed.dir, recursive = T)
-                files.list <- list.files(normed.dir, pattern = "*.fcs$", ignore.case = T)
+                files.list <- list.files(normed.dir, pattern = "\\.fcs$", ignore.case = T)
                 showModal(modalDialog(
                     title = "Normalizer report",
                     "Bead removal started, please wait..."
@@ -219,7 +219,7 @@ shinyServer(function(input, output, session) {
     observeEvent(input$normalizerui_apply_gates_all_files, {
         isolate({
             cur.gates <- get_beads_gates_for_current_file()
-            files.list <- list.files(working.directory, pattern = "*.fcs$", ignore.case = T)
+            files.list <- list.files(working.directory, pattern = "\\.fcs$", ignore.case = T)
             lapply(files.list, function(f.name) {
                 beads.gates[[f.name]] <- cur.gates
                 NULL
