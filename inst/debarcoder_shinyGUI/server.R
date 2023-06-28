@@ -74,6 +74,9 @@ shinyServer(function(input, output, session) {
 
     debarcoderui_get_exprs <- reactive({
             fcs <- debarcoderui_get_fcs()
+            req(fcs)
+            bc.key <- debarcoderui_get_bc_key()
+            req(bc.key)
 
             ret <- NULL
             if(!is.null(fcs)) {
@@ -84,6 +87,14 @@ shinyServer(function(input, output, session) {
                     m <- m[sample(1:nrow(m), downsample.to), ]
                 }
                 ret <- asinh(m / 10)
+                bc.cofactors <- attr(bc.key, "cofactors")
+                if (!is.null(bc.cofactors)) {
+                    bc.colnames <- get_barcode_channels_names(m, bc.key)
+                    for (i in 1:length(bc.colnames)) {
+                        message(bc.colnames[i], bc.cofactors[i])
+                        ret[, bc.colnames[i]] <- asinh(m[, bc.colnames[i]] / bc.cofactors[i])
+                    }
+                }
             }
 
 

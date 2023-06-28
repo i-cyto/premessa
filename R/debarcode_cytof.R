@@ -7,7 +7,16 @@
 #'
 #' @export
 read_barcode_key <- function(fname) {
-    return(read.csv(fname, check.names = F, row.names = 1))
+    # read file
+    bc.table <- read.csv(fname, comment.char = "", check.names = F, row.names = 1)
+    # look for a row called "cofactor" and retrieve cofactor for each mass
+    cofactor_row <- which("cofactor" == rownames(bc.table))
+    if (length(cofactor_row) == 1) {
+        bc.cofactors <- unlist(bc.table[cofactor_row,])
+        bc.table <- bc.table[-cofactor_row,]
+        attr(bc.table, "cofactors") <- bc.cofactors
+    }
+    return(bc.table)
 }
 
 #' Get the names of the barcode channels
@@ -306,7 +315,14 @@ debarcode_data <- function(m, bc.key, downsample.to = NULL) {
 debarcode_fcs <- function(fcs, bc.key, output.dir, output.basename, sep.threshold, mahal.dist.threshold = 30) {
     m <- flowCore::exprs(fcs)
     m.transformed <- asinh(m / 10)
-
+    bc.cofactors <- attr(bc.key, "cofactors")
+    if (!is.null(bc.cofactors)) {
+        bc.colnames <- get_barcode_channels_names(m, bc.key)
+        for (i in 1:length(bc.colnames)) {
+            message(bc.colnames[i], bc.cofactors[i])
+            m.transformed[, bc.colnames[i]] <- asinh(m[, bc.colnames[i]] / bc.cofactors[i])
+        }
+    }
 
     bc.res <- debarcode_data(m.transformed, bc.key)
     mahal.dist <- get_mahalanobis_distance(m.transformed, bc.res, sep.threshold)
