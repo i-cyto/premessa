@@ -17,7 +17,7 @@ will be created as a subfolder of the Working directory}
 Note that only files in \code{names(beads.gates)} will be processed. Also note that the data structure
 may contain gates for extra channels, but which channels will be used depends on the \code{beads.type} parameter}
 
-\item{beads.type}{Type of beads. Must be on of \code{"Fluidigm"}, \code{"Beta"}}
+\item{beads.type}{Type of beads. Must be one of \code{"Fluidigm"}, \code{"Beta"}, \code{"XT"}}
 
 \item{baseline}{If \code{NULL} the median beads intensities of the current files will be used as baseline
 for normalization. Alternatively this can be a character string with the path of a directory containing

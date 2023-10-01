@@ -14,7 +14,7 @@ calculate_baseline(
 \arguments{
 \item{wd}{Working directory (character)}
 
-\item{beads.type}{Type of beads. Must be on of \code{"Fluidigm"}, \code{"Beta"}}
+\item{beads.type}{Type of beads. Must be one of \code{"Fluidigm"}, \code{"Beta"}, \code{"XT"}}
 
 \item{files.type}{The type of FCS files contained in \code{wd}. If \code{data}, the files represent
 full datasets (i.e. beads + cells events), the gates in \code{beads.gates} will be applied to extract

@@ -10,6 +10,9 @@ debarcode_data(m, bc.key, downsample.to = NULL)
 \item{m}{The data matrix}
 
 \item{bc.key}{The barcode key, as returned by \code{read_barcode_key}}
+
+\item{downsample.to}{Optional. If provided the data will be downsampled to the
+specified number of events before debarcoding}
 }
 \value{
 Returns a list with the following components
