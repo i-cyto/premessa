@@ -68,7 +68,7 @@ shinyServer(function(input, output, session) {
     debarcoderui_get_fcs <- reactive({
         ret <- NULL
         if(!is.null(debarcoderui.reactive.values$fcs.fname) && debarcoderui.reactive.values$fcs.fname != "")
-            ret <- flowCore_read.FCS(debarcoderui.reactive.values$fcs.fname)
+            ret <- premessa:::flowCore_read_FCS(debarcoderui.reactive.values$fcs.fname)
         return(ret)
     })
 

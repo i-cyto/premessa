@@ -127,7 +127,7 @@ as_flowFrame <- function(exprs.m, source.frame = NULL) {
 #'
 #' @export
 concatenate_fcs_files <- function(files.list, output.file = NULL) {
-    m <- lapply(files.list, flowCore_read.FCS, emptyValue = FALSE)
+    m <- lapply(files.list, flowCore_read_FCS, emptyValue = FALSE)
 
     # Use the first flowFrame as reference
     flow.frame <- m[[1]]
@@ -159,7 +159,7 @@ write_flowFrame <- function(flowFrame, path) {
 }
 
 
-#' flowCore_read.FCS
+#' flowCore_read_FCS
 #'
 #' This function calls flowCore read.FCS function, but with modified default
 #' arguments
@@ -171,7 +171,7 @@ write_flowFrame <- function(flowFrame, path) {
 #' @param ... parameters passed to read.FCS
 #'
 #' @return a flowFrame
-flowCore_read.FCS <- function(
+flowCore_read_FCS <- function(
         filename,
         emptyValue = FALSE,
         transformation = FALSE,
@@ -188,7 +188,7 @@ flowCore_read.FCS <- function(
 }
 
 read_fcs <- function(f.name) {
-    fcs <- flowCore_read.FCS(f.name)
+    fcs <- flowCore_read_FCS(f.name)
     ret <- list()
     ret$m <- flowCore::exprs(fcs)
     p.names <-  as.character(flowCore::parameters(fcs)$name)

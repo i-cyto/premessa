@@ -7,4 +7,4 @@ Description: This package includes panel editing/renaming for FCS files, bead-ba
 Imports: shiny (>= 0.14), flowCore, reshape, ggplot2, hexbin, gridExtra, rhandsontable, jsonlite, data.table, shinyjqui
 License: GPL v3
 LazyData: TRUE
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
